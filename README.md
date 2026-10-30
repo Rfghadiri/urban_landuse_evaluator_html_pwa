@@ -1,129 +1,209 @@
-# URBAN LAND-USE EVALUATOR
-## Complete English User Guide
+# Urban Land Use Evaluator & Spatial Network Analysis
 
-**Application:** Offline HTML prototype  
-**Purpose:** Preliminary per-capita land-use evaluation and geometric service-buffer analysis
+A GIS-based application for evaluating urban land-use distribution, calculating service-area standards, and performing spatial accessibility analysis through road networks.
 
----
-
-## 1. Overview
-
-This prototype supports preliminary evaluation of urban land-use provision per capita using a reference population and the standard ranges embedded in the application. It also provides data-quality checks, mapping of input land-use labels to standard categories, an initial SWOT/TOWS assessment, and geometric visualization of service locations and circular buffers.
-
-> **Important:** This is a prototype for analysis and workflow testing. It does not replace professional review, approved planning regulations, or legal verification of standards.
-
-## 2. Run the Application
-
-1. **Extract** the ZIP archive to a folder.
-2. **Open** `index.html` in an up-to-date browser, such as Google Chrome, Microsoft Edge, or Firefox.
-3. **Work offline:** normal use does not require Python or an internet connection.
-4. When exporting results, check your browser's download location and save prompt.
+The application is designed to support urban planners, GIS analysts, and urban development researchers in assessing existing land-use patterns and identifying spatial deficiencies in urban services.
 
 ---
 
-## 3. Per-Capita Land-Use Evaluation
+## Key Features
 
-### Workflow
+### 1. Urban Land-Use Evaluation
+- Import urban land-use data directly from **ESRI Shapefile**.
+- Read polygon geometries and attribute tables.
+- Select land-use classification fields from the shapefile attribute table.
+- Calculate land-use areas automatically from polygon geometries.
+- Calculate existing per-capita land-use standards.
+- Compare existing per-capita values with predefined planning standards.
+- Identify land-use deficiencies and surpluses.
+- Generate statistical summaries and comparative charts.
 
-1. Enter the **project name** and the **planning-baseline population**.
-2. Upload a land-use **CSV file**, or use the sample-data option.
-3. Select the columns for **land use** and **area**, plus an identifier column if available.
-4. In the land-use mapping section, map each input label to its corresponding standard category.
-5. Run the calculation or report-update action.
-6. Review the results, active standards, data-quality checks, and preliminary SWOT/TOWS assessment. Export results as needed.
+### 2. Service Area Buffer Analysis
+- Import service locations using CSV files.
+- Define service buffer distances.
+- Analyze the spatial coverage of urban facilities.
+- Evaluate service accessibility using Euclidean buffer distances.
+- Visualize service coverage and spatial distribution.
 
-### Recommended CSV format
+### 3. Road Network Analysis
+- Import road network data from ESRI Shapefile (`.shp`).
+- Import service locations independently using CSV files.
+- Build a graph-based road network from line geometries.
+- Connect service locations to the nearest road network edges.
+- Perform network-distance accessibility analysis using shortest-path algorithms.
+- Identify accessible and inaccessible network areas within specified distance thresholds.
+- Export analytical results as CSV files.
 
-```csv
-parcel_id,land_use,area_m2
-P001,Educational,40000
-P002,Park,80000
-```
-
-### Data requirements and notes
-
-- **File format:** CSV is recommended; use UTF-8 encoding.
-- **Area:** `area_m2` must contain numeric values in square metres.
-- **Population:** The population entered in the application is the denominator for per-capita calculations of aggregated land-use categories.
-- **Standards:** You can edit standard ranges for the current analysis. These edits do not change the embedded reference file.
-- **Commercial/service adjustment:** Enable the **0.5 m² adjustment** only when the condition specified in the relevant standards note applies.
-
----
-
-## 4. Service Locations and Buffer Analysis
-
-### Workflow
-
-1. Open the **Service Spatial Analysis** tab.
-2. Upload a CSV of service locations, or select the sample-points option.
-3. Check the columns assigned to **service type**, **X**, **Y**, and **identifier**.
-4. Enter the project's **UTM zone** in the project information.
-5. In the standard-radius table, enter a **buffer radius in metres** for each service type.
-6. Review the geometric map, analytical diagram, and summary indicators.
-7. Export the required outputs, if needed.
-
-### Recommended CSV format
-
-```csv
-id,land_use,x,y
-S001,School,537000,3628000
-S002,Park,537400,3627600
-```
-
-### Coordinate requirements
-
-- **X = Easting** and **Y = Northing**.
-- Coordinates must be in **metres** and use the same projected coordinate reference system, UTM zone, and hemisphere.
-- Sample coordinates are synthetic and must **not** be used for real-world analysis.
-- The output is a geometric map of points and circular buffers; it is **not** a street basemap or a GIS background map.
-- Buffer radii must be supplied by the user based on an applicable, reliable standard for each service type. Default values, if present, should not be treated as legally authoritative.
-
-### Interpreting buffer results
-
-- Circular buffers represent **straight-line (Euclidean) distance**, not travel distance or travel time along the street network.
-- A point falling within another service's buffer does not indicate how many residents are served.
-- Estimating population coverage requires spatial population data, such as census blocks or a population grid.
+### 4. Reporting and Visualization
+- Generate statistical summaries of land-use distribution.
+- Visualize land-use composition and service accessibility.
+- Compare existing land-use standards against planning benchmarks.
+- Export analytical data for further GIS processing.
 
 ---
 
-## 5. Available Exports
+## Input Data Requirements
 
-| Output | Format |
+### Land-Use Shapefile
+
+Required files:
+
+- `.shp` — Polygon geometries
+- `.dbf` — Attribute table
+- `.shx` — Shape index
+- `.prj` — Coordinate reference system (strongly recommended)
+
+The shapefile should contain a field representing land-use categories.
+
+**Important — Character Encoding Limitation**
+
+The application currently has limitations when reading Persian characters from shapefile attribute tables.
+
+For reliable results, it is strongly recommended to:
+
+- Use **English characters** for land-use categories and attribute values.
+- Use English field names in the DBF attribute table.
+- If Persian attributes are required, save the DBF text encoding as **Windows-1256**.
+- Include a `.cpg` file specifying the encoding when available.
+
+Example:
+
+| landuse_code | landuse_name |
 |---|---|
-| Per-capita evaluation results | CSV |
-| Evaluation summary | CSV |
-| SWOT/TOWS report | TXT |
-| Land-use data template | CSV |
-| Service-location data template | CSV |
-| Geometric buffer map | SVG or PNG |
-| Service analytical diagram | SVG |
-| Summary by service type, including point counts and entered radii | CSV |
+| 1 | Residential |
+| 2 | Commercial |
+| 3 | Educational |
+| 4 | Medical |
+| 5 | Green Space |
+| 6 | Administrative |
 
-**Note:** The application does not currently import or export XLSX files directly. Use CSV files instead.
+Using English attribute values is the preferred approach for maximum compatibility.
+
+### Service Locations CSV
+
+The CSV file should contain at least two coordinate fields:
+
+| id | service_type | name | X | Y |
+|---|---|---|---:|---:|
+| S001 | Hospital | Hospital 1 | 510250 | 3622500 |
+| S002 | School | School 1 | 512100 | 3623900 |
+| S003 | Park | Park 1 | 511300 | 3621700 |
+
+The coordinate fields must use a projected coordinate reference system with metric units.
 
 ---
 
-## 6. Standards Reference and Limitations
+## Coordinate Reference System (CRS)
 
-- Some special provisions and domain-specific rules—including rules that depend on student population and special cemetery calculations—may not be calculated automatically and may require expert interpretation.
-- Per-capita provision alone does not establish the adequacy or spatial equity of service access.
-- The embedded standards reference identifies **Table 3 of the resolution dated 10 June 2010** (20 Khordad 1389 in the Iranian calendar) of Iran's Supreme Council of Urban Planning and Architecture.
-- The current validity and legal status of the referenced standards must be **verified independently** before formal or regulatory use.
+For accurate area and network-distance calculations:
+
+- Use a projected coordinate system.
+- Coordinates must be expressed in meters.
+- Ensure that land-use polygons, road networks, and service locations share the same CRS.
+
+For Isfahan, Iran, **WGS 84 / UTM Zone 39N (EPSG:32639)** can be used where appropriate.
+
+> Geographic coordinates (latitude/longitude) should not be used directly for planar area or metric network-distance calculations.
 
 ---
 
-## 7. Troubleshooting
+## Technical Overview
 
-| Issue | What to check |
+| Component | Description |
 |---|---|
-| Columns are detected incorrectly | Select the correct columns manually from the dropdown lists. |
-| The map does not appear | Confirm that X and Y contain numeric values and use a consistent projected coordinate system. |
-| A buffer is not visible | Enter a radius greater than zero for the relevant service type. |
-| Persian text appears garbled in a CSV | Save or re-export the file using UTF-8 encoding. |
-| An exported file is difficult to find | Check your browser's default Downloads folder and any save dialog. |
+| Platform | Web-based application |
+| Interface | HTML, CSS, JavaScript |
+| GIS Data | ESRI Shapefile |
+| Tabular Data | CSV |
+| Spatial Analysis | Polygon area and buffer analysis |
+| Network Analysis | Graph construction and shortest-path analysis |
+| Visualization | Interactive charts and spatial representations |
+| Output | CSV and analytical summaries |
 
 ---
 
-## Before Using Results in an Official Report
+## Limitations
 
-**Independently verify the calculations, the applicable standards, and the interpretation of every output.** Treat results as preliminary until they have been reviewed by a qualified planning professional.
+- Shapefile attribute encoding may affect the correct display of Persian text. Windows-1256 is recommended for Persian DBF attributes; English attribute values are preferred.
+- Network analysis performance depends on the number of road segments and available browser memory.
+- Accurate network analysis requires valid road geometries and appropriate network connectivity.
+- Service locations must be in the same projected CRS as the road network.
+- The application does not automatically correct topological errors or reproject all input datasets.
+- Online basemaps, where used, require an internet connection.
+
+---
+
+## Getting Started
+
+1. Download the latest ZIP release.
+2. Extract the application files.
+3. Open the HTML file in a modern web browser.
+4. Import your land-use shapefile or service-location CSV.
+5. Configure the required analytical parameters.
+6. Run the desired spatial analysis.
+7. Review the results and export the analytical data.
+
+No server-side installation is required for the basic application workflow.
+
+---
+
+## Intended Applications
+
+- Urban land-use assessment
+- Per-capita urban service evaluation
+- Urban facility accessibility analysis
+- Road-network-based service accessibility
+- Identification of spatial service deficiencies
+- Urban planning and development studies
+- GIS-based decision support
+
+---
+
+## Future Development
+
+Potential improvements include:
+
+- Native Persian RTL Word report generation (`.docx`).
+- Improved automatic character-encoding detection.
+- GeoPackage support.
+- Advanced network topology validation.
+- Large-scale network processing.
+- Additional accessibility and spatial equity indicators.
+- Integration with Python-based geospatial processing.
+
+---
+
+## License
+
+## License
+
+Copyright © 2026 Aref Ghadiri. All rights reserved.
+
+This project is developed for academic and research purposes in the field of urban planning and geospatial analysis, with an academic affiliation to **Art University of Isfahan, Iran**.
+
+No permission is granted to redistribute, modify, or commercially use this software without prior written permission from the copyright holder, except where otherwise explicitly authorized.
+
+Any authorized redistribution, modification, or academic use must retain the original copyright notice and include clear attribution to the original GitHub repository:
+
+**Original Repository:**  
+https://github.com/Rfghadiri/urban_landuse_evaluator_html_pwa
+
+**Academic Affiliation:**  
+Art University of Isfahan, Iran.
+
+## Attribution and Citation
+
+If you use, reference, adapt, or incorporate this software into academic research, publications, reports, or derivative projects, please acknowledge the original work.
+
+**Recommended citation:**
+
+Ghadiri, A. (2026). *Urban Land Use Evaluator & Spatial Network Analysis* [Software]. GitHub. https://github.com/Rfghadiri/urban_landuse_evaluator_html_pwa
+
+**Academic affiliation:** Art University of Isfahan, Isfahan, Iran.
+
+Please retain the original repository URL in any derivative or redistributed version. The mention of Art University of Isfahan indicates academic affiliation and does not imply official university endorsement or ownership.
+
+
+---
+
+**Developed for GIS-based urban planning, land-use evaluation, and spatial accessibility analysis.**
