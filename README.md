@@ -1,5 +1,5 @@
 # Urban Land Use Evaluator
-### Version 1.2 — AI Assistant & Python Coding Environment
+### Version 1.4 — AI Assistant & Python Coding Environment
 
 An integrated analytical platform for urban land-use evaluation, spatial analysis, accessibility assessment, and data-driven urban planning.
 
@@ -7,9 +7,9 @@ An integrated analytical platform for urban land-use evaluation, spatial analysi
 
 **Urban Land Use Evaluator** is a web-based application designed to support urban planners, GIS specialists, and researchers in evaluating urban land-use patterns and assessing the spatial distribution of urban services.
 
-Version **1.2** introduces two major capabilities: an integrated **AI Assistant** and a **Python Coding Environment**, expanding the application from a conventional land-use evaluation tool into a more flexible computational environment for urban planning and spatial analysis.
+Version **1.4** introduces two major capabilities: an integrated **AI Assistant** and a **Python Coding Environment**, expanding the application from a conventional land-use evaluation tool into a more flexible computational environment for urban planning and spatial analysis.
 
-## What's New in Version 1.2
+## What's New in Version 1.4
 
 ### 1. AI Assistant
 
@@ -23,7 +23,7 @@ Key capabilities:
 
 ### 2. Python Coding Environment
 
-Version 1.2 introduces an integrated Python coding environment, enabling users to write and execute Python code within the application.
+Version 1.4 introduces an integrated Python coding environment, enabling users to write and execute Python code within the application.
 
 Key capabilities:
 - In-browser Python code editor.
@@ -109,6 +109,6 @@ The long-term objective is to develop an extensible computational environment th
 
 ---
 
-**Urban Land Use Evaluator — Version 1.2**
+**Urban Land Use Evaluator — Version 1.4**
 
 *Bridging GIS, Artificial Intelligence, Python, and Urban Planning.*
