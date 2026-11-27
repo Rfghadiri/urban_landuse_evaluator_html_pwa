@@ -192,8 +192,8 @@ Obtain an API key from:
 Download `main.py` from your repository or clone the project.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
-cd YOUR_REPOSITORY
+git clone https://github.com/Rfghadiri/urban_landuse_evaluator_html_pwa.git
+cd urban_landuse_evaluator_html_pwa
 ```
 
 If you only need the backend, download `main.py` and place it in a dedicated directory, such as:
